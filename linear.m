@@ -23,8 +23,8 @@ function tc = MSECSL(results,targets);
 end
 % Gradient descent for the above.
 % One batch weight change
-% lrate= learning rate
-function DeltaWeights = DWSLGD(weights,variable,targets,lRate);
+% Actually more just returns derivative of above MSECSL
+function DeltaWeights = DWSLGD(weights,variable,targets);
 	% checking this before we add the bias 'variable'
 	if length(targets)!=length(variable);
 		error("Input size mismatch");
@@ -41,6 +41,17 @@ function DeltaWeights = DWSLGD(weights,variable,targets,lRate);
 end
 
 % Multibatch
+
+function FinalWeights = SLGDMB(weights,variable,targets,lRate,nIters);
+	iters = 0;
+	%tempweights
+	tWeights = weights;
+	while iters < nIters;
+		tWeights -= lRate*DWSLGD(tWeights,variable,targets);
+		iters+=1;
+	end
+	FinalWeights = tWeights;
+end
 
 %Examples
 %slope 1 intercept 0
