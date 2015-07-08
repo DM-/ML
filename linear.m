@@ -14,7 +14,7 @@ end
 % Cost function, cost given results & targets.
 % Mean Squared Error cost function.
 % Input data in column vectors
-function tc = MSEC(targets,results);
+function tc = MSECSL(targets,results);
 	if length(targets)!=length(results);
 		error("Input size mismatch");
 	end
@@ -23,7 +23,7 @@ function tc = MSEC(targets,results);
 end
 % Gradient descent for the above.
 % One batch weight change
-
+function DeltaWeights = DWSLGD(weights,)
 % Multibatch
 
 %Examples
