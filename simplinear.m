@@ -1,6 +1,6 @@
 % Learn from experience E how to perform better at task T as measured by C
 % Simple linear first. 2 weights (As a column vector [Bias;weight]) + 1 variable (Also column vector). Output is column vector
-
+%just testing something with git
 % Calculate results given weights+data.
 function results = SLR(weights,variable);
 	variable = [ones(length(variable),1),variable];
