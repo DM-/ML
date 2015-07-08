@@ -14,7 +14,7 @@ end
 % Cost function, cost given results & targets.
 % Mean Squared Error cost function.
 % Input data in column vectors
-function tc = MSECSL(targets,results);
+function tc = MSECSL(results,targets);
 	if length(targets)!=length(results);
 		error("Input size mismatch");
 	end
@@ -23,7 +23,23 @@ function tc = MSECSL(targets,results);
 end
 % Gradient descent for the above.
 % One batch weight change
-function DeltaWeights = DWSLGD(weights,)
+% lrate= learning rate
+function DeltaWeights = DWSLGD(weights,variable,targets,lRate);
+	% checking this before we add the bias 'variable'
+	if length(targets)!=length(variable);
+		error("Input size mismatch");
+	end
+	% using this since we wont ever add bias 'variable' to targets
+	m = length(targets);
+	% container to fill with answer
+	DeltaWeights=[0;0];
+	% calculating results all in 1 go
+	results = SLR(weights,variable);
+
+	DeltaWeights(1)=1/m*sum(targets-results);
+	DeltaWeights(2)=1/m*sum((targets-results).*variable);
+end
+
 % Multibatch
 
 %Examples
