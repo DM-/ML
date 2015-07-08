@@ -31,11 +31,10 @@ function DeltaWeights = DWLRGD(weights,variables,targets);
 	m = length(targets);
 
 	% calculating results all in 1 go
-	results = SLR(weights,variables);
+	results = LR(weights,variables);
 	% Doing this here so I can unify how I handle bias and weights.
 	variables = [ones(length(variables),1),variables];
-
-	DeltaWeights = 1/m*sum(variables'*(results-targets));
+	DeltaWeights = 1/m.*(variables'*(results-targets));
 end
 
 % Multibatch
@@ -66,3 +65,9 @@ x2y0z=2:2:20;
 
 %convient shortcut
 %  [x2y0x',x2y0y']
+
+X1=[2.9,2.4,2,2.3,3.2,1.9,3.4,2.1];
+X2=[9.2,8.7,7.2,8.5,9.6,6.8,9.7,7.9];
+X3=[13.2,11.5,10.8,12.3,12.6,10.6,14.1,11.2];
+X4=[2,3,4,2,3,5,1,3]';
+XXX=[X1',X2',X3'];
