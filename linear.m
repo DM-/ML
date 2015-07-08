@@ -3,7 +3,8 @@
 
 % Calculate results given weights+data.
 function results = SLR(weights,variable);
-	results = variable*weights(2).+weights(1);
+	variable = [ones(length(variable),1),variable];
+	results  = variable*weights; 
 end
 % Draw line as plot, given weights data, use above to get results needed.
 function PSLR(weights,variable);
