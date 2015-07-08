@@ -43,5 +43,10 @@ end
 % Example Data
 
 data = load('data1.txt');
-X = data(:, [1, 2]);
-Y = data(:, 3);
+X2 = data(:, [1, 2]);
+Y2 = data(:, 3);
+
+load('ex3data1.mat'); % training data stored in arrays X, y
+% Randomly select 100 data points to display
+rand_indices = randperm(m);
+sel = X(rand_indices(1:100), :);
