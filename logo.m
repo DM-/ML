@@ -41,7 +41,7 @@ function FinalWeights = LogGD(weights,variables,targets,lRate,nIters);
 	FinalWeights = tWeights;
 end
 % Example Data
-x1 = [1,2,3,2,1,2,2,3,1];
-x2 = [5,6,4,4,5,4,6,4,5];
-y  = [1,0,1,1,0,0,1,1,1]';
-XXX=[x1',x2'];
+
+data = load('data1.txt');
+X = data(:, [1, 2]);
+Y = data(:, 3);
