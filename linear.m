@@ -36,8 +36,8 @@ function DeltaWeights = DWSLGD(weights,variable,targets);
 	% calculating results all in 1 go
 	results = SLR(weights,variable);
 
-	DeltaWeights(1)=1/m*sum(targets-results);
-	DeltaWeights(2)=1/m*sum((targets-results).*variable);
+	DeltaWeights(1)=1/m*sum(results-targets);
+	DeltaWeights(2)=1/m*sum((results-targets).*variable);
 end
 
 % Multibatch
@@ -47,7 +47,7 @@ function FinalWeights = SLGDMB(weights,variable,targets,lRate,nIters);
 	%tempweights
 	tWeights = weights;
 	while iters < nIters;
-		tWeights += lRate*DWSLGD(tWeights,variable,targets);
+		tWeights -= lRate*DWSLGD(tWeights,variable,targets);
 		iters+=1;
 	end
 	FinalWeights = tWeights;
