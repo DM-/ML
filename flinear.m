@@ -44,7 +44,7 @@ function FinalWeights = LRGDMB(weights,variables,targets,lRate,nIters);
 	%tempweights
 	tWeights = weights;
 	while iters < nIters;
-		tWeights -= lRate*DWSLGD(tWeights,variables,targets);
+		tWeights -= lRate*DWLRGD(tWeights,variables,targets);
 		iters+=1;
 	end
 	FinalWeights = tWeights;
