@@ -22,6 +22,9 @@ function tc = MSEC(targets,results);
 	tc = 0.5/m*sum((targets-results).^2);
 end
 % Gradient descent for the above.
+% One batch weight change
+
+% Multibatch
 
 %Examples
 %slope 1 intercept 0
