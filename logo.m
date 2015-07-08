@@ -3,7 +3,7 @@
 source funcs.m 
 % Calculate results given weights+variables
 function results = LogR(weights,variables);
-	variables = [ones(length(variables),1),variables];
+	variables = [ones(size(variables,1),1),variables];
 	if size(variables)(2) != size(weights)(1)
 		error("wrong weights to variables size")
 	end
@@ -20,13 +20,10 @@ function DeltaWeights = LogDW(weights,variables,targets);
 	if size(targets)(1)!=size(variables)(1);
 		error("Input size mismatch");
 	end
-	% using this since we wont ever add bias 'variable' to targets
-	m = length(targets);
-
 	% calculating results all in 1 go
 	results = LogR(weights,variables);
 	% Doing this here so I can unify how I handle bias and weights.
-	variables = [ones(length(variables),1),variables];
+	variables = [ones(size(variables,1),1),variables];
 	DeltaWeights = (variables'*(results-targets));
 end
 % Gradient Descent
@@ -46,7 +43,44 @@ data = load('data1.txt');
 X2 = data(:, [1, 2]);
 Y2 = data(:, 3);
 
-load('ex3data1.mat'); % training data stored in arrays X, y
+load('data2.mat'); % training data stored in arrays X, y
+sizeOfX = size(X, 1);
 % Randomly select 100 data points to display
-rand_indices = randperm(m);
+rand_indices = randperm(sizeOfX);
 sel = X(rand_indices(1:100), :);
+
+% Multiclass logistic regression
+% Takes all variables LogGD does.
+% Expects weights in the format [theta1classifier1,theta1classifier2,...;theta2classifier1,theta2classifier2,...] . ie like above
+% but stuck next to each other.
+% Variables should stay the same as above.
+% From targets we will extract the different targets with unique(), and how many to make with length(), checking it with weights to catch errors
+function FinalWeights = MCLogGD(weights,variables,targets,lRate,nIters);
+	% Initialize variables by adding bias & creating container for results
+	variables = [ones(size(variables,1),1),variables];
+	FinalWeights = zeros(size(weights));
+	if size(targets)(1)!=size(variables)(1);
+		error("Not equal no. of targets and variables");
+	end
+	if size(variables)(2) != size(weights)(1)
+		error("wrong weights to variables size");
+	end
+	classes = unique(targets)
+	if size(classes,1) != size(weights,2)
+		error ("Expected no. of classes from weights vs classes in targets mismatch")
+	end
+	q=1
+	for i = classes'
+		localTargets = i == targets; % seperate it so everything is 0 except our class, at 1
+		% need a way to maintain order of weights <-> class later
+		localWeights = weights(:,q); % slice off out bit of the pie
+		iters = 0;
+		while iters < nIters;
+			results = sigm(variables*localWeights); % get the results for this classifier
+			localWeights -= lRate*(variables'*(results-localTargets));
+			iters+=1;
+		end
+		FinalWeights(:,q)=localWeights;
+		q+=1
+	end
+end
