@@ -1,6 +1,6 @@
 % Learn from experience E how to perform better at task T as measured by C
 % any no of variables. 2 weights (As a column vector [Bias;weight1;weight2;etc]) + X variables (Also column vector). Output is column vector
-
+source funcs.m  %math library, here to provide regress.
 % Calculate results given weights+data.
 function results = LinR(weights,variables);
 	variables = [ones(length(variables),1),variables];
@@ -44,6 +44,7 @@ function FinalWeights = LinGD(weights,variables,targets,lRate,nIters);
 	%tempweights
 	tWeights = weights;
 	while iters < nIters;
+		regress(tWeights,lRate,0.001,size(targets,1)); %does regression , 0.001 is the regression rate, for later modification
 		tWeights -= lRate*LinDW(tWeights,variables,targets);
 		iters+=1;
 	end

@@ -1,5 +1,5 @@
 % Learn from experience E how to perform better at task T as measured by C
-% we rely on V for @sigm etc
+% we rely on V for @sigm ,regress, etc
 source funcs.m 
 % Calculate results given weights+variables
 function results = LogR(weights,variables);
@@ -72,7 +72,7 @@ function FinalWeights = MCLogGD(weights,variables,targets,lRate,nIters);
 	q=1
 	for i = classes'
 		localTargets = i == targets; % seperate it so everything is 0 except our class, at 1
-		% need a way to maintain order of weights <-> class later
+		% need a way to maintain order of weights <-> class later for now use unique(targets) to find the order.
 		localWeights = weights(:,q); % slice off out bit of the pie
 		iters = 0;
 		while iters < nIters;
