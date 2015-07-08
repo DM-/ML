@@ -2,7 +2,7 @@
 % any no of variables. 2 weights (As a column vector [Bias;weight1;weight2;etc]) + X variables (Also column vector). Output is column vector
 
 % Calculate results given weights+data.
-function results = LR(weights,variables);
+function results = LinR(weights,variables);
 	variables = [ones(length(variables),1),variables];
 	if size(variables)(2) != size(weights)(1)
 		error("wrong weights to variables size")
@@ -12,7 +12,7 @@ end
 % Cost function, cost given results & targets.
 % Mean Squared Error cost function.
 % Input data in column vectors
-function tc = MSECLR(results,targets);
+function tc = LinC(results,targets);
 	if length(targets)!=length(results);
 		error("Input size mismatch");
 	end
@@ -22,7 +22,7 @@ end
 % Gradient descent for the above.
 % One batch weight change
 % Actually more just returns derivative of above MSECSL
-function DeltaWeights = DWLRGD(weights,variables,targets);
+function DeltaWeights = LinDW(weights,variables,targets);
 	% checking this before we add the bias 'variable'
 	if size(targets)(1)!=size(variables)(1);
 		error("Input size mismatch");
@@ -31,7 +31,7 @@ function DeltaWeights = DWLRGD(weights,variables,targets);
 	m = length(targets);
 
 	% calculating results all in 1 go
-	results = LR(weights,variables);
+	results = LinR(weights,variables);
 	% Doing this here so I can unify how I handle bias and weights.
 	variables = [ones(length(variables),1),variables];
 	DeltaWeights = 1/m.*(variables'*(results-targets));
@@ -39,12 +39,12 @@ end
 
 % Multibatch
 
-function FinalWeights = LRGDMB(weights,variables,targets,lRate,nIters);
+function FinalWeights = LinGD(weights,variables,targets,lRate,nIters);
 	iters = 0;
 	%tempweights
 	tWeights = weights;
 	while iters < nIters;
-		tWeights -= lRate*DWLRGD(tWeights,variables,targets);
+		tWeights -= lRate*LinDW(tWeights,variables,targets);
 		iters+=1;
 	end
 	FinalWeights = tWeights;
