@@ -70,8 +70,8 @@ function FinalWeights = MCLogGD(weights,variables,targets,lRate,nIters);
 		error ("Expected no. of classes from weights vs classes in targets mismatch")
 	end
 	q=1
-	for i = classes'
-		localTargets = i == targets; % seperate it so everything is 0 except our class, at 1
+	for ex = classes'
+		localTargets = ex == targets; % seperate it so everything is 0 except our class, at 1
 		% need a way to maintain order of weights <-> class later for now use unique(targets) to find the order.
 		localWeights = weights(:,q); % slice off out bit of the pie
 		iters = 0;
