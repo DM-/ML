@@ -22,3 +22,13 @@ end;
 function regressedValue = regress(Value,lRate,rRate,m)
 	regressedValue = Value*(1-lRate*rRate/m);
 end
+
+%Normal Equation
+function theta = nEq(x, y)
+	theta = pinv(x' * x) * x' * y;
+end
+
+% Prepad with bias
+function padded = prebias(m2b)
+	padded = prepad(m2b,size(m2b,2)+1,1,2);
+end

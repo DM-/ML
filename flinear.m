@@ -75,9 +75,13 @@ XXX=prepad([X1',X2',X3'],size([X1',X2',X3'],2)+1,1,2);
 
 datalins = load('datalins.txt');
 xlins = datalins(:, 1); ylins = datalins(:, 2);
-llins = length(ylins); % number of training examples
+xlins = zscore(xlins,1,1) % (X-mean)/std
+xlins = prebias(xlins)    % add bias terms
+llins = length(ylins);    % number of training examples
 
 datalinm = load('datalinm.txt');
 xlinm = datalinm(:, 1:2);
+xlinm = zscore(xlinm,1,1) % (X-mean)/std
+xlinm = prebias(xlinm)    % add bias terms
 ylinm = datalinm(:, 3);
 llinm = length(ylinm);
