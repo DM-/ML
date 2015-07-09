@@ -84,6 +84,17 @@ end
 
 % With lndw implemented we just need to adapt it, add a function that calculats error signal, and a function to combine them
 
+% Function to do a forward pass and grab the net input going in at each layer & output from each layer.
+% The output is in netoutcell(:,2), and net inputs in netoutcell(:,1)
+
+function netoutcell = laynetout(data,weights,func) % thats all we need for a forward pass
+	netoutcell = cell(size(weights,1)+1,2);
+	netoutcell(1,1) =netoutcell(1,2) = data  % Net = output for the input layer, since it has no activation function. Only output used
+	for ex = 2:size(weights,1)+1 % skip first since thats for input layer
+		netoutcell(ex,1) = netoutcell(ex-1,2)*weights(ex-1)  %The net input of layer x=output of layer x-1*weights connecting x-1 2 x 
+		netoutcell(ex,2) = func(netoutcell(ex,1)) % The output of a layer is activation function (net input of layer)
+	end
+end
 function deltaweights = lndw(targets,       % calculates results from data & weights since we need those anyways
 							 data,weights,
 							 func,invfunc),
