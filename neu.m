@@ -41,7 +41,7 @@ function wsc(weights)
 	for ex = 1:size(weights,1)-1 % check all except last since last outputs to exit not another layer
 		if size(weights{ex},2) != size(weights{ex+1},1) %columns to rows
 			error("Layer size mismatch")
-		end
+		endgit 
 	end
 end
 
@@ -49,6 +49,22 @@ end
 %Single Neuron Learning
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % source flinear.m % for learning for the @self func
+% function deltaweights = sndw(dedo,dodn,dndw) would be the real one, but we'll make one that assumes the error function is
+% total squared error, and that delta net input / delta weights = value associated with said weight
+function deltaweights = sndw(targets,       % calculates results from data & weights since we need those anyways
+							 data,weights,
+							 func,invfunc),
+	deltaweights = data'*((snr(data,weights,func)-targets)*invfunc(data*weights)); % data'*((results-targets)*dodn(net_input))
+	% the part after the * gives a matrix such that M(1,1) is the error in the first neuron for the first set of variables
+	% M(2,1) is the error in the first neuron for the second set
+	% M(1,2) is the error for the second neuron for the first set
+	% What the above does is it takes M(:,1) , a column vector of the errors in the first neuron for each set
+	% And multiplies it with the data(:,1)' , the set of all the first variables from all sets
+	% This gives us how much the weight should be adjuted as learned from each set, and because of how matrix mult works
+	% It sums up all those adjustments together. The result can be directly subtracted from the input weights matrix
+	% to give an updated result.
+
+end
 % source logo.m    % for learning with the @sigm func
 % For others, simply derivate (delta-error/delta-weights)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
