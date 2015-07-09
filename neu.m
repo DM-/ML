@@ -32,7 +32,7 @@ function results = nlnr(data,weights,func);
 		results = func(results*weights{ex});
 	end
 end
-%Adding a byte of code to sanity check the weights. Each layer should have as many columns as the next has rows.git
+%Adding a byte of code to sanity check the weights. Each layer should have as many columns as the next has rows.
 
 function wsc(weights)
 	if iscell(weights)==0 % not a cell = wrong place
@@ -55,7 +55,7 @@ function deltaweights = lndw(targets,       % calculates results from data & wei
 							 data,weights,
 							 func,invfunc),
 	deltaweights = data'*((snr(data,weights,func)-targets).*invfunc(data*weights)); % data'*((results-targets)*dodn(net_input))
-	% the part after the * gives a matrix such that M(1,1) is the error in the first neuron for the first set of variables
+	% the part after the * gives a matrix  such that M(1,1) is the error in the first neuron for the first set of variables
 	% M(2,1) is the error in the first neuron for the second set
 	% M(1,2) is the error for the second neuron for the first set
 	% What the above does is it takes M(:,1) , a column vector of the errors in the first neuron for each set
@@ -81,3 +81,13 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Going right to the big one, backprop for nlnr, arbritary size network.
+
+% With lndw implemented we just need to adapt it, add a function that calculats error signal, and a function to combine them
+
+function deltaweights = lndw(targets,       % calculates results from data & weights since we need those anyways
+							 data,weights,
+							 func,invfunc),
+	deltaweights = data'*(esig().*invfunc(data*weights)); % data'*(dedo*dodn(net_input))
+end
+
+function esignal = esig()
