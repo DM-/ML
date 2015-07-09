@@ -32,7 +32,7 @@ function results = nlnr(data,weights,func);
 		results = func(results*weights{ex});
 	end
 end
-%Adding a byte of code to sanity check the weights. Each layer should have as many columns as the next has rows.
+%Adding a byte of code to sanity check the weights. Each layer should have as many columns as the next has rows.git
 
 function wsc(weights)
 	if iscell(weights)==0 % not a cell = wrong place
