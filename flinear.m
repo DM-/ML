@@ -3,7 +3,7 @@
 source funcs.m  %math library, here to provide regress.
 % Calculate results given weights+data.
 function results = LinR(weights,variables);
-	variables = [ones(length(variables),1),variables];
+	variables = prepad(variables,size(variables,1)+1,1,2);
 	if size(variables)(2) != size(weights)(1)
 		error("wrong weights to variables size")
 	end
@@ -33,7 +33,7 @@ function DeltaWeights = LinDW(weights,variables,targets);
 	% calculating results all in 1 go
 	results = LinR(weights,variables);
 	% Doing this here so I can unify how I handle bias and weights.
-	variables = [ones(length(variables),1),variables];
+	variables = prepad(variables,size(variables,1)+1,1,2);
 	DeltaWeights = 1/m.*(variables'*(results-targets));
 end
 

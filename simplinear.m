@@ -3,7 +3,7 @@
 %just testing something with git
 % Calculate results given weights+data.
 function results = SLR(weights,variable);
-	variable = [ones(length(variable),1),variable];
+	variables = prepad(variables,size(variables,1)+1,1,2);
 	results  = variable*weights; 
 end
 % Draw line as plot, given weights data, use above to get results needed.

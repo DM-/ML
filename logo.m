@@ -3,7 +3,7 @@
 source funcs.m 
 % Calculate results given weights+variables
 function results = LogR(weights,variables);
-	variables = [ones(size(variables,1),1),variables];
+	variables = prepad(variables,size(variables,1)+1,1,2);
 	if size(variables)(2) != size(weights)(1)
 		error("wrong weights to variables size")
 	end
@@ -23,7 +23,7 @@ function DeltaWeights = LogDW(weights,variables,targets);
 	% calculating results all in 1 go
 	results = LogR(weights,variables);
 	% Doing this here so I can unify how I handle bias and weights.
-	variables = [ones(size(variables,1),1),variables];
+	variables = prepad(variables,size(variables,1)+1,1,2);
 	DeltaWeights = (variables'*(results-targets));
 end
 % Gradient Descent
@@ -57,7 +57,7 @@ sel = X(rand_indices(1:100), :);
 % From targets we will extract the different targets with unique(), and how many to make with length(), checking it with weights to catch errors
 function FinalWeights = MCLogGD(weights,variables,targets,lRate,nIters);
 	% Initialize variables by adding bias & creating container for results
-	variables = [ones(size(variables,1),1),variables];
+	variables = prepad(variables,size(variables,1)+1,1,2);
 	FinalWeights = zeros(size(weights));
 	if size(targets)(1)!=size(variables)(1);
 		error("Not equal no. of targets and variables");
