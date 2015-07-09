@@ -98,14 +98,22 @@ end
 function deltaweights = lndw(targets,       % calculates results from data & weights since we need those anyways
 							 data,weights,
 							 func,invfunc),
-	depth = size(weights,3);
+	depth = size(weights,1); % How many weight matrixes are there? There are that many layers +1 input layer.
 	if depth == 1
-		error("For single layer networks please use lndw and lngd");
+		error("For single layer networks please use lndw and lngd"); 	% Due to how the top layer has special handling, I decided this
+																		% is easier
 	end
-	deltaweights = weights;
-	deltaweights(depth)= data'*((snr(data,weights,func)-targets).*invfunc(data*weights));
-
+	deltaweights = cell(size(weights,1),1); % output has as many matrixes as the weights input
+	netoutcell   = laynetout(data,weights,func); % This shows us the gizzards of the net, does the feedforward and gets all we need.
+	% deltaweights(x) is the weights from x to x+1, netoutcell(x) is the net input/output pair for layer x
+	esig               = (netoutcell{depth+1,2}-targets).*invfunc(netoutcell{depth+1,1});
+	deltaweights(depth)= netoutcell{depth,2}'*esig;
+	% wl2l3 = l2.o * ((l3.o-l3.t).*f'(l3.n) where w is weights, l is layer, .o is output , .t is targets, .n is net input
+	% and f' is derivative of the activation function. This is the formula for the output layer.
+	for ex = depth-1:-1:1
+		esig = (esig*weights{ex+1}').*invfunc(netoutcell{ex+1,1});
+		deltaweights(ex)=netoutcell{ex,2}'*esig;
+	end
 end
 
-function esignal = esig(),
-end
+
