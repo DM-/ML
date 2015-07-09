@@ -1,6 +1,6 @@
 % This will be for neural nets
 % Need the math lib as usual
-source funcs.m
+source funcs.m;
 
 % Now what I want to implement
 
@@ -8,12 +8,20 @@ source funcs.m
 %This section is for feedforward results finding
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% A single neuron, takes data (row for sets, columns for variables) and weights (column) and activation function
-
-% A layer of neurons, takes the same data as above, weights (each neurons weights take a column), derives size of net from weights and activation function
-
+% A single neuron, takes data (row for sets, columns for variables) and weights (column) and activation function. func in @func form.
+% Returns column of results
+function results = snr(data,weights,func);
+	results = func(data*weights);
+end
+% A layer of neurons, takes the same data as above, weights (each neurons weights take a column), derives size of net from weights 
+% and activation function. Same as above due to vectorization & matrix math. Results is matrix data rows by weights columns
+function results = lnr(data,weights,func);
+	results = func(data*weights);
+end
 % A standard 3 layer network, takes data as above, weights arranged as above + 3rd dimension for each layer, derives size of net from weights and activation function
-
+function results = lnr(data,weights,func);
+	results = func(data*weights);
+end
 % An arbritary size network, data as above, weights as above, derives size as above, and activation function
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
