@@ -41,8 +41,8 @@ end
 
 data = load('data1.txt');
 X2 = data(:, [1, 2]);
-% X2 = zscore(X2,1,1);
-% X2 = prepad(X2,size(X2,2),1,2);
+X2 = zscore(X2,1,1);
+X2 = prepad(X2,size(X2,2),1,2);
 Y2 = data(:, 3);
 
 load('data2.mat'); % training data stored in arrays X, y
