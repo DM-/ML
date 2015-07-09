@@ -20,21 +20,21 @@ function results = lnr(data,weights,func);
 end
 % A standard 3 layer network, takes data as above, weights arranged as above + 3rd dimension for each layer, 
 % derives size of net from weights and activation function. Weights is a cell array column vector of maxtrixes.
-function results = lnr(data,weights,func);
+function results = trilnr(data,weights,func);
 	resultsIntermediate = func(data*weights{1});
 	results = func(resultsIntermediate*weights{2});
 
 end
 % An arbritary size network, data as above, weights as above, derives size as above, and activation function
-function results = lnr(data,weights,func);
-	results = data
+function results = nlnr(data,weights,func);
+	results = data;
 	for ex = 1:size(weights,1)
 		results = func(results*weights{ex});
 	end
 end
 %Adding a byte of code to sanity check the weights. Each layer should have as many columns as the next has rows.
 
-function value = wsc(weights)
+function wsc(weights)
 	if iscell(weights)==0 % not a cell = wrong place
 		error("That wasnt a cell")
 	end
