@@ -3,7 +3,7 @@
 source funcs.m  %math library, here to provide regress.
 % Calculate results given weights+data.
 function results = LinR(weights,variables);
-	variables = [ones(length(variables),1),variables];
+	%variables = [ones(length(variables),1),variables];
 	if size(variables)(2) != size(weights)(1)
 		error("wrong weights to variables size")
 	end
@@ -33,7 +33,7 @@ function DeltaWeights = LinDW(weights,variables,targets);
 	% calculating results all in 1 go
 	results = LinR(weights,variables);
 	% Doing this here so I can unify how I handle bias and weights.
-	variables = [ones(length(variables),1),variables];
+	% variables = [ones(length(variables),1),variables];
 	DeltaWeights = 1/m.*(variables'*(results-targets));
 end
 
@@ -51,7 +51,7 @@ function FinalWeights = LinGD(weights,variables,targets,lRate,nIters);
 	FinalWeights = tWeights;
 end
 
-
+% Stop forgetting to add bias noob.
 x1y1x=1:1:10;
 x1y1y=1:1:10;
 x1y1z=2:2:20;
@@ -71,4 +71,13 @@ X1=[2.9,2.4,2,2.3,3.2,1.9,3.4,2.1];
 X2=[9.2,8.7,7.2,8.5,9.6,6.8,9.7,7.9];
 X3=[13.2,11.5,10.8,12.3,12.6,10.6,14.1,11.2];
 X4=[2,3,4,2,3,5,1,3]';
-XXX=[X1',X2',X3'];
+XXX=prepad([X1',X2',X3'],size([X1',X2',X3'],2)+1,1,2);
+
+datalins = load('datalins.txt');
+xlins = datalins(:, 1); ylins = datalins(:, 2);
+llins = length(ylins); % number of training examples
+
+datalinm = load('datalinm.txt');
+xlinm = datalinm(:, 1:2);
+ylinm = datalinm(:, 3);
+llinm = length(ylinm);
