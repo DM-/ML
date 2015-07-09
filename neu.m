@@ -20,10 +20,17 @@ function results = lnr(data,weights,func);
 end
 % A standard 3 layer network, takes data as above, weights arranged as above + 3rd dimension for each layer, derives size of net from weights and activation function
 function results = lnr(data,weights,func);
-	results = func(data*weights);
+	resultsIntermediate = func(data*weights(:,:,1));
+	results = func(resultsIntermediate*weights(:,:,2));
+
 end
 % An arbritary size network, data as above, weights as above, derives size as above, and activation function
-
+function results = lnr(data,weights,func);
+	results = data
+	for ex = 1:size(weights,3)
+		results = func(results*weights(:,:,ex));
+	end
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %BackProp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
