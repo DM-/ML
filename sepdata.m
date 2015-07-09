@@ -8,6 +8,3 @@ targets(1,101:200)=ones(1,100).*-1;
 permute = randperm(200);
 patterns = patterns(:, permute)';
 targets = targets(:, permute)';
-plot (patterns(1, find(targets>0)), patterns(2, find(targets>0)), '*' , patterns(1, find(targets<0)), patterns(2, find(targets<0)), '+');
-[insize, ndata]  =  size(patterns) ;
-[outsize, ndata] =  size(targets)  ;
