@@ -107,4 +107,5 @@ function deltaweights = lndw(targets,       % calculates results from data & wei
 
 end
 
-function esignal = esig()
+function esignal = esig(),
+end
