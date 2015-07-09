@@ -87,7 +87,13 @@ end
 function deltaweights = lndw(targets,       % calculates results from data & weights since we need those anyways
 							 data,weights,
 							 func,invfunc),
-	deltaweights = data'*(esig().*invfunc(data*weights)); % data'*(dedo*dodn(net_input))
+	depth = size(weights,3);
+	if depth == 1
+		error("For single layer networks please use lndw and lngd");
+	end
+	deltaweights = weights;
+	deltaweights(depth)= data'*((snr(data,weights,func)-targets).*invfunc(data*weights));
+
 end
 
 function esignal = esig()
