@@ -18,9 +18,9 @@ end;
 function a = invtin(z);
 	a= ((1 + tin(z)) .* (1 - tin(z))) * 0.5;
 end;
-% performs regression on a value. This can be tacked onto lin grad descnent, and log.
-function regressedValue = regress(Value,lRate,rRate,m)
-	regressedValue = Value*(1-lRate*rRate/m);
+% performs regulization on a value. This can be tacked onto lin grad descnent, and log.
+function regValue = reg(Value,lRate,rRate,m)
+	regdValue = Value*(1-lRate*rRate/m);
 end
 
 %Normal Equation
