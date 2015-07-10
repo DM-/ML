@@ -93,6 +93,8 @@ function netoutcell = laynetout(data,weights,func) % thats all we need for a for
 	for ex = 2:size(weights,1)+1 % skip first since thats for input layer
 		netoutcell(ex,1) = netoutcell{ex-1,2}*weights{ex-1};  %The net input of layer x=output of layer x-1*weights connecting x-1 2 x 
 		netoutcell(ex,2) = func(netoutcell{ex,1}); % The output of a layer is activation function (net input of layer)
+		% prebias(netoutcell{ex,2}) here would introduce bias input to every neuron at every layer 
+		% except data, where bias is assumed to be already.
 	end
 end
 function deltaweights = lndw(targets,       % calculates results from data & weights since we need those anyways
