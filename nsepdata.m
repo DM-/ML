@@ -1,0 +1,15 @@
+classA(1,:) = [randn(1,50) .* 0.2 - 1.0, randn(1,50) .* 0.2 + 1.0];
+classA(2,:) = randn(1,100) .* 0.2 + 0.3;
+classB(1,:) = randn(1,100) .* 0.3 + 0.0;
+classB(2,:) = randn(1,100) .* 0.3 - 0.1;
+patternsBASE = [classA, classB];
+targetsBASE(1,1:100)=ones(1,100);
+targetsBASE(1,101:200)=zeros(1,100);
+% targets(1,101:200)=ones(1,100).*-1;
+permute = randperm(200);
+patternsBASE = patternsBASE(:, permute);
+targetsBASE = targetsBASE(:, permute);
+patterns = patternsBASE(:,1:150);
+targets = targetsBASE  (:,1:150);
+patternsTEST = patternsBASE(:,151:200);
+targetsTEST  = targetsBASE(:,151:200);
