@@ -106,7 +106,7 @@ function deltaweights = lndw(targets,       % calculates results from data & wei
 	deltaweights = cell(size(weights,1),1); % output has as many matrixes as the weights input
 	netoutcell   = laynetout(data,weights,func); % This shows us the gizzards of the net, does the feedforward and gets all we need.
 	% deltaweights(x) is the weights from x to x+1, netoutcell(x) is the net input/output pair for layer x
-	esig               = (netoutcell{depth+1,2}-targets).*invfunc(netoutcell{depth+1,1});
+	esig               = (netoutcell{depth+1,2}-targets).*invfunc(netoutcell{depth+1,1}); %This is the line to change to change c-func
 	deltaweights(depth)= netoutcell{depth,2}'*esig;
 	% wl2l3 = l2.o * ((l3.o-l3.t).*f'(l3.n) where w is weights, l is layer, .o is output , .t is targets, .n is net input
 	% and f' is derivative of the activation function. This is the formula for the output layer.
@@ -114,6 +114,8 @@ function deltaweights = lndw(targets,       % calculates results from data & wei
 		esig = (esig*weights{ex+1}').*invfunc(netoutcell{ex+1,1});
 		deltaweights(ex)=netoutcell{ex,2}'*esig;
 	end
+	% Here you could do deltaweights = cellfun(@times,deltaweights,{rRate},'Unif',false) where rRate is regularization
+	% This would apply regularization to this method.
 end
 
 
