@@ -16,7 +16,7 @@ function ncentroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the
 	% Lets create the container for results here so that we dont have to keep expanding it later
 	ncentroids = zeros(size(Centroids));
 	% This is the assignment step
-	[lowestcost,index]=min(sqrt(sum((perm(Data,[3,2,1])-Centroids).^2,2))); 
+	[lowestcost,index]=min(sqrt(sum((permute(Data,[3,2,1])-Centroids).^2,2))); 
 	index = permute(index,[3,2,1]);
 	% Now this will need notes for later, first we make data from a M by X matrix, to a 1 by X by M matrix, then subtract from it
 	% the centroids. Due to matrix broadcasting, this will result in data becoming a N by X by M matrix, where N is the number of
@@ -40,7 +40,7 @@ function ncentroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the
 end
 
 function cost = kmcost(Data,Centroids) % Cost function for kmeans
-	[lowestcost,index]=min(sqrt(sum((perm(Data,[3,2,1])-Centroids).^2,2))); 
+	[lowestcost,index]=min(sqrt(sum((permute(Data,[3,2,1])-Centroids).^2,2))); 
 	index = permute(index,[3,2,1]); % I could get this handed as an input, but that would mean added an extra output to kmeanstep/iter
 									% Overhead there > minimal overhead here. Might make a function that takes Data+Centroids & returns
 									% Index
@@ -48,6 +48,7 @@ function cost = kmcost(Data,Centroids) % Cost function for kmeans
 															%That Centroids(X,:)= Centroids(index(m),:)
 end
 
-function index = kmindex(Data,Centroids),
-	[lowestcost,index]=min(sqrt(sum((perm(Data,[3,2,1])-Centroids).^2,2))); 
-	index = permute(index,[3,2,1]);
+function ind = kmindex(Data,Centroids),
+	[lowestcost,index]=min(sqrt(sum((permute(Data,[3,2,1])-Centroids).^2,2))); 
+	ind = permute(index,[3,2,1]);
+end
