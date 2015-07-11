@@ -5,12 +5,16 @@
 % This folder relies on broadcasting and so the warning is disabled
 warning ("off", "Octave:broadcast");
 % warning ("error", "Octave:broadcast"); % to turn it on uncomment this line. 
-function cost = kmcost(Data,Centroids) % Cost function for kmeans
-		cost = sum((Data-Centroids).^2)/size(Data,1)
-function centroids = kmeans(Data,NoCentroids,Iters,tolerance?) % This is the outter function
-		centroids = Data(randperm(size(Data,1),NoCentroids),:); % Initializing centroids as = random datapoints
-function centroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the same format as before,with each row being a datapoint
+function centroids = kmeans(Data,NoCentroids,Iters) % This is the outter function
+	centroids = Data(randperm(size(Data,1),NoCentroids),:); % Initializing centroids as random datapoints
+	for iters = 1:Iters
+		centroids = kmeansstep(Data,centroids);
+	end
+end
+function ncentroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the same format as before,with each row being a datapoint
 													% And each column being a variable in the datapoints
+	% Lets create the container for results here so that we dont have to keep expanding it later
+	ncentroids = zeros(size(Centroids));
 	% This is the assignment step
 	[lowestcost,index]=min(sqrt(sum((perm(Data,[3,2,1])-Centroids).^2,2))); 
 	index = permute(index,[3,2,1]);
@@ -29,6 +33,17 @@ function centroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the 
 	for ex = size(Centroids); 	% This is the same as for ex = unique(index)
 		filter = index==ex;		% This turns values other than ex to 0, and so creates a M by 1 matrix of 1s & 0s, with 
 								% filter(m)=1 meaning Data(m,:) is assigned to Centroid(ex) and should be included
-		Centroids(ex)=(filter'*data)/sum(filter) %This applies filter to data while summing the variables into position 
+		ncentroids(ex)=(filter'*data)/sum(filter); %This applies filter to data while summing the variables into position 
 		% simultaneously while divind by the number of datapoints we used to get the average.
-		% and thats centroid assignment.
+		% And thats centroid assignment.
+	end
+end
+
+function cost = kmcost(Data,Centroids) % Cost function for kmeans
+	[lowestcost,index]=min(sqrt(sum((perm(Data,[3,2,1])-Centroids).^2,2))); 
+	index = permute(index,[3,2,1]); % I could get this handed as an input, but that would mean added an extra output to kmeanstep/iter
+									% Overhead there > minimal overhead here. Might make a function that takes Data+Centroids & returns
+									% Index
+	cost = sum((Data-Centroids(index,:)).^2)/sum(index); 	%So that each Data(m,:) is matched to right centroid we permute centroid so
+															%That Centroids(X,:)= Centroids(index(m),:)
+end
