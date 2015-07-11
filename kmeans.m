@@ -44,11 +44,20 @@ function cost = kmcost(Data,Centroids) % Cost function for kmeans
 	index = permute(index,[3,2,1]); % I could get this handed as an input, but that would mean added an extra output to kmeanstep/iter
 									% Overhead there > minimal overhead here. Might make a function that takes Data+Centroids & returns
 									% Index
-	cost = sum((Data-Centroids(index,:)).^2)/sum(index); 	%So that each Data(m,:) is matched to right centroid we permute centroid so
+	cost = sum(sum((Data-Centroids(index,:)).^2))/sum(index); 	%So that each Data(m,:) is matched to right centroid we permute centroid so
 															%That Centroids(X,:)= Centroids(index(m),:)
 end
 
 function ind = kmindex(Data,Centroids),
 	[lowestcost,index]=min(sqrt(sum((permute(Data,[3,2,1])-Centroids).^2,2))); 
 	ind = permute(index,[3,2,1]);
+end
+
+function C = kmeansC(Data,NoCentroids,Iters) % This is the outter function
+	centroids = Data(randperm(size(Data,1),NoCentroids),:); % Initializing centroids as random datapoints
+	C = zeros(1,Iters); % Initializing C to a row vector of length Iters
+	for iters = 1:Iters
+		centroids = kmeansstep(Data,centroids);
+		C(iters)=kmcost(Data,centroids);
+	end
 end
