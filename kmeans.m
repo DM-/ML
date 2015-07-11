@@ -30,10 +30,10 @@ function ncentroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the
 	% to parity with data, giving us index where index(m) is the centroid to which Data(m,:) is assigned.
 
 	% This is the moving centroid step
-	for ex = size(Centroids); 	% This is the same as for ex = unique(index)
+	for ex = 1:size(Centroids,1); 	% This is the same as for ex = unique(index)' (Only reason we had to transpose is octave syntax)
 		filter = index==ex;		% This turns values other than ex to 0, and so creates a M by 1 matrix of 1s & 0s, with 
 								% filter(m)=1 meaning Data(m,:) is assigned to Centroid(ex) and should be included
-		ncentroids(ex)=(filter'*data)/sum(filter); %This applies filter to data while summing the variables into position 
+		ncentroids(ex,:)=(filter'*Data)/sum(filter); %This applies filter to data while summing the variables into position 
 		% simultaneously while divind by the number of datapoints we used to get the average.
 		% And thats centroid assignment.
 	end
