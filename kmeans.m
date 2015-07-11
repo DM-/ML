@@ -47,3 +47,7 @@ function cost = kmcost(Data,Centroids) % Cost function for kmeans
 	cost = sum((Data-Centroids(index,:)).^2)/sum(index); 	%So that each Data(m,:) is matched to right centroid we permute centroid so
 															%That Centroids(X,:)= Centroids(index(m),:)
 end
+
+function index = kmindex(Data,Centroids),
+	[lowestcost,index]=min(sqrt(sum((perm(Data,[3,2,1])-Centroids).^2,2))); 
+	index = permute(index,[3,2,1]);
