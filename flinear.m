@@ -44,7 +44,7 @@ function FinalWeights = LinGD(weights,variables,targets,lRate,nIters);
 	%tempweights
 	tWeights = weights;
 	while iters < nIters;
-		regress(tWeights,lRate,0.001,size(targets,1)); %does regression , 0.001 is the regression rate, for later modification
+		reg(tWeights,lRate,0.001,size(targets,1)); %does regression , 0.001 is the regression rate, for later modification
 		tWeights -= lRate*LinDW(tWeights,variables,targets);
 		iters+=1;
 	end
