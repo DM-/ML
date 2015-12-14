@@ -6,5 +6,5 @@ patterns = [classA, classB];
 targets(1,1:100)=ones(1,100);
 targets(1,101:200)=ones(1,100).*-1;
 permutation = randperm(200);
-patterns = patterns(:, permute)';
-targets = targets(:, permute)';
+patterns = patterns(:, permutation)';
+targets = targets(:, permutation)';

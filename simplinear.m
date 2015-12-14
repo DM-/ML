@@ -31,7 +31,7 @@ function DeltaWeights = DWSLGD(weights,variable,targets);
 	% using this since we wont ever add bias 'variable' to targets
 	m = length(targets);
 	% container to fill with answer
-	DeltaWeights=[0;0];
+	DeltaWeights=zeros(size(weights)) % so that they always match.
 	% calculating results all in 1 go
 	results = SLR(weights,variable);
 
