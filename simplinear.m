@@ -1,11 +1,8 @@
-%this isnt a function file fuckers
-1;
-
 % Learn from experience E how to perform better at task T as measured by C
 % Simple linear first. 2 weights (As a column vector [Bias;weight]) + 1 variable (Also column vector). Output is column vector
 % Calculate results given weights+data.
 function results = SLR(weights,variable);
-	variables = prepad(variable,size(variable,1)+1,1,2);
+	variables = prepad(variable,size(variable,2)+1,1,2);
 	results  = variables*weights; 
 end
 % Draw line as plot, given weights data, use above to get results needed.
