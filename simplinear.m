@@ -1,9 +1,12 @@
+%this isnt a function file fuckers
+1;
+
 % Learn from experience E how to perform better at task T as measured by C
 % Simple linear first. 2 weights (As a column vector [Bias;weight]) + 1 variable (Also column vector). Output is column vector
 % Calculate results given weights+data.
 function results = SLR(weights,variable);
-	variables = prepad(variables,size(variables,1)+1,1,2);
-	results  = variable*weights; 
+	variables = prepad(variable,size(variable,1)+1,1,2);
+	results  = variables*weights; 
 end
 % Draw line as plot, given weights data, use above to get results needed.
 function PSLR(weights,variable);
@@ -35,7 +38,7 @@ function DeltaWeights = DWSLGD(weights,variable,targets);
 	% calculating results all in 1 go
 	results = SLR(weights,variable);
 
-	DeltaWeights(1)=1/m*sum(results-targets);
+	DeltaWeights(1)=1/m*sum(results-targets); % this is .*bias, but bias is always one in this case.
 	DeltaWeights(2)=1/m*sum((results-targets).*variable);
 end
 
