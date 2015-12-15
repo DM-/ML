@@ -5,11 +5,12 @@
 % This folder relies on broadcasting and so the warning is disabled
 warning ("off", "Octave:broadcast");
 % warning ("error", "Octave:broadcast"); % to turn it on uncomment this line. 
-function centroids = kmeans(Data,NoCentroids,Iters) % This is the outter function
+function [centroids,index] = kmeans(Data,NoCentroids,Iters) % This is the outter function
 	centroids = Data(randperm(size(Data,1),NoCentroids),:); % Initializing centroids as random datapoints
 	for iters = 1:Iters
 		centroids = kmeansstep(Data,centroids);
 	end
+	index=kmindex(Data,centroids);
 end
 function ncentroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the same format as before,with each row being a datapoint
 													% And each column being a variable in the datapoints
@@ -63,3 +64,9 @@ function C = kmeansC(Data,NoCentroids,Iters) % This is the outter function
 		C(iters)=kmcost(Data,centroids);
 	end
 end
+
+% Usage guide for image compression. M by N by 3 for rgb images.
+% Flat=reshape(IMAGE,[],3) to flatten it
+% [Centroids,CompressedFlat] = kmeans(Flate,No_Centroids,No_Iters)
+% Compressed=reshape(CompressedFlate,M,N,3)
+% imshow(Compressed,Centroids/COLOR_RESOLUTION) to display the reconstructed compressed image.
