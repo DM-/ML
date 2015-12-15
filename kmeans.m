@@ -40,11 +40,13 @@ function ncentroids = kmeansstep(Data,Centroids), 	% We'll assume data is in the
 end
 
 function cost = kmcost(Data,Centroids) % Cost function for kmeans
-	[lowestcost,index]=min(sqrt(sum((permute(Data,[3,2,1])-Centroids).^2,2))); 
-	index = permute(index,[3,2,1]); % I could get this handed as an input, but that would mean added an extra output to kmeanstep/iter
+	[lowestcost,index]=min(sqrt(sum((permute(Data,[3,2,1])-Centroids).^2,2)));
+	% Pretty sure I could just sum lowestcost rofl.
+	cost=sum(lowestcost);
+	%index = permute(index,[3,2,1]); % I could get this handed as an input, but that would mean added an extra output to kmeanstep/iter
 									% Overhead there > minimal overhead here. Might make a function that takes Data+Centroids & returns
 									% Index
-	cost = sum(sum((Data-Centroids(index,:)).^2))/sum(index); 	%So that each Data(m,:) is matched to right centroid we permute centroid so
+	%cost = sum(sum((Data-Centroids(index,:)).^2))/sum(index); 	%So that each Data(m,:) is matched to right centroid we permute centroid so
 															%That Centroids(X,:)= Centroids(index(m),:)
 end
 
